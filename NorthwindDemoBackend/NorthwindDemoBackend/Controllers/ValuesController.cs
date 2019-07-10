@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace NorthwindDemoBackend.Controllers
 {
@@ -10,10 +8,18 @@ namespace NorthwindDemoBackend.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly ILogger<ValuesController> _logger;
+
+        public ValuesController(ILogger<ValuesController> logger)
+        {
+            _logger = logger;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            _logger.LogDebug("Get req");
             return new string[] { "value1", "value2" };
         }
 
@@ -21,6 +27,7 @@ namespace NorthwindDemoBackend.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
+            _logger.LogDebug($"Get req {nameof(id)}: {id}");
             return "value";
         }
 
