@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NorthwindDemoBackend.Models;
+using NorthwindDemoBackend.Models.Repositories;
+using NorthwindDemoBackend.Repositories;
 
 namespace NorthwindDemoBackend
 {
@@ -29,6 +31,7 @@ namespace NorthwindDemoBackend
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NorthwindDatabase")));
+            services.AddScoped<IRepository<Products>, GenericRepository<Products>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
