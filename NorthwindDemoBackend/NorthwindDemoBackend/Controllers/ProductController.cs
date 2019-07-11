@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NLog;
 using NorthwindDemoBackend.Interfaces;
+using NorthwindDemoBackend.Models.Responses;
+using NorthwindDemoBackend.Models.Rquests;
 using NorthwindDemoBackend.Models.ViewModels;
 
 namespace NorthwindDemoBackend.Controllers
@@ -18,9 +19,27 @@ namespace NorthwindDemoBackend.Controllers
         }
 
         [HttpPost, Route("Create")]
-        public bool CreateProduct([FromBody]ProductViewModel req)
+        public bool CreateProduct(ProductViewModel req)
         {
             return _productService.CreateProduct(req);
+        }
+
+        [HttpPost, Route("Find")]
+        public GetProductsResponse FindProducts(FindProductsRequest req)
+        {
+            return _productService.FindProducts(req);
+        }
+
+        [HttpPost, Route("Update")]
+        public bool UpdateProduct(ProductViewModel req)
+        {
+            return _productService.UpdateProduct(req);
+        }
+
+        [HttpPost, Route("Delete")]
+        public bool DeleteProduct(DeleteProductRequest req)
+        {
+            return _productService.DeleteProduct(req);
         }
     }
 }

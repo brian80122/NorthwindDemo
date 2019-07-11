@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace NorthwindDemoBackend.Models.AutoMapperProfile
 {
-    public class ProductProfile : Profile
+    public class SupplierProfile : Profile
     {
-        public ProductProfile()
+        public SupplierProfile()
         {
-            CreateMap<ProductViewModel, Products>();
-            CreateMap<Products, ProductViewModel>();
+            CreateMap<Suppliers, SupplierViewModel>();
         }
     }
 }

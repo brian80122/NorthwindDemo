@@ -40,12 +40,15 @@ namespace NorthwindDemoBackend
             });
             //service
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISupplierService, SupplierService>();
 
             //db
             services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NorthwindDatabase")));
             services.AddScoped<IRepository<Products>, GenericRepository<Products>>();
+            services.AddScoped<IRepository<Categories>, GenericRepository<Categories>>();
+            services.AddScoped<IRepository<Suppliers>, GenericRepository<Suppliers>>();
 
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

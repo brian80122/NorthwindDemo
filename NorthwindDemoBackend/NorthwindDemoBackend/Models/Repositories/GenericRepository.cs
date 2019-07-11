@@ -30,6 +30,7 @@ namespace NorthwindDemoBackend.Models.Repositories
                 return _objectset;
             }
         }
+
         public IQueryable<T> All()
         {
             return ObjectSet.AsQueryable();
