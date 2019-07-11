@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 using NorthwindDemoBackend.Interfaces;
 using NorthwindDemoBackend.Models;
 using NorthwindDemoBackend.Models.Repositories;
@@ -32,7 +33,9 @@ namespace NorthwindDemoBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                    .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
@@ -49,6 +52,13 @@ namespace NorthwindDemoBackend
             services.AddScoped<IRepository<Categories>, GenericRepository<Categories>>();
             services.AddScoped<IRepository<Suppliers>, GenericRepository<Suppliers>>();
 
+            services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
+             {
+                 policy.WithOrigins("http://localhost:8080")
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials();
+             }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +80,7 @@ namespace NorthwindDemoBackend
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "NorthwindDemo API V1");
             });
 
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseMvc();
         }
